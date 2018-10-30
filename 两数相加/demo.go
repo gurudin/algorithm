@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 type ListNode struct {
@@ -23,31 +22,45 @@ type Feed struct {
  * }
  */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	var str1 string
-	var str2 string
+	var sum []int
+	var cnt = 1
 
 	currentL1 := l1
-	str1 = strconv.Itoa(currentL1.Val)
+	currentL2 := l2
+
+	sum = append(sum, currentL1.Val)
 	for currentL1.Next != nil {
 		currentL1 = currentL1.Next
-		str1 += strconv.Itoa(currentL1.Val)
+		sum = append(sum, currentL1.Val)
 	}
 
-	currentL2 := l2
-	str2 = strconv.Itoa(currentL2.Val)
+	sum[0] += currentL2.Val
 	for currentL2.Next != nil {
 		currentL2 = currentL2.Next
-		str2 += strconv.Itoa(currentL2.Val)
+
+		if len(sum) < (cnt + 1) {
+			sum = append(sum, currentL2.Val)
+		} else {
+			sum[cnt] += currentL2.Val
+		}
+		cnt++
 	}
 
-	num1, _ := strconv.Atoi(Strrev(str1))
-	num2, _ := strconv.Atoi(Strrev(str2))
-	sum := num1 + num2
+	for i := 0; i < len(sum); i++ {
+		if sum[i] >= 10 {
+			if len(sum) > i+1 {
+				sum[i+1]++
+			} else {
+				sum = append(sum, 1)
+			}
+
+			sum[i] -= 10
+		}
+	}
 
 	f := &Feed{}
-	for i := len(strconv.Itoa(sum)[:]) - 1; i >= 0; i-- {
-		res, _ := strconv.Atoi(string(strconv.Itoa(sum)[:][i]))
-		f.insert(&ListNode{Val: res})
+	for _, val := range sum {
+		f.insert(&ListNode{Val: val})
 	}
 
 	return f.list
@@ -77,6 +90,7 @@ func (f *Feed) insert(newNode *ListNode) {
 }
 
 func main() {
+	// -----------------
 	f1 := &Feed{}
 	f1.insert(&ListNode{Val: 2})
 	f1.insert(&ListNode{Val: 4})
@@ -86,11 +100,10 @@ func main() {
 	f2.insert(&ListNode{Val: 5})
 	f2.insert(&ListNode{Val: 6})
 	f2.insert(&ListNode{Val: 4})
+	fmt.Println(addTwoNumbers(f1.list, f2.list))
+	// -------end-------
 
-	result := addTwoNumbers(f1.list, f2.list)
-
-	fmt.Println(result)
-
+	// -----------------
 	f3 := &Feed{}
 	f4 := &Feed{}
 
@@ -98,4 +111,19 @@ func main() {
 	f3.insert(&ListNode{Val: 8})
 	f4.insert(&ListNode{Val: 0})
 	fmt.Println(addTwoNumbers(f3.list, f4.list))
+	// -------end-------
+
+	// -----------------
+	arr1 := []int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}
+	arr2 := []int{5, 6, 4}
+	f5 := &Feed{}
+	f6 := &Feed{}
+	for _, val := range arr1 {
+		f5.insert(&ListNode{Val: val})
+	}
+	for _, val := range arr2 {
+		f6.insert(&ListNode{Val: val})
+	}
+	fmt.Println(addTwoNumbers(f5.list, f6.list))
+	// -------end-------
 }
