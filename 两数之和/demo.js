@@ -21,7 +21,22 @@ var twoSumB = function(nums, target) {
   }
 }
 
+var twoSumC = function(nums, target) {
+  var hash = [];
+
+  for (var i = 0; i < nums.length; i++) {
+    var num = nums[i];
+
+    if (hash[num] !== undefined) {
+      return [hash[num], i]
+    } else {
+      hash[target - num] = i;
+    }
+  }
+}
+
 let nums = [1, 2, 3, 4, 5, 6];
 let target = 4;
 console.log(twoSum(nums, target));
 console.log(twoSumB(nums, target));
+console.log(twoSumC(nums, target));

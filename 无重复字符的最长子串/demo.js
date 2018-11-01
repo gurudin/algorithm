@@ -2,7 +2,7 @@
  * @param {string}
  * @return {number}
  */
-var lengthOfLongestSubstring = function (s) {
+var lengthOfLongestSubstringA = function (s) {
   var tmpStr;
   var maxLen = 0;
   
@@ -24,6 +24,32 @@ var lengthOfLongestSubstring = function (s) {
   return maxLen;
 };
 
+/**
+ * @param {string}
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+  var maxLen = tmpLen = start = 0;
+  var map = [];
+
+  for (let i = 0; i < s.length; i++) {
+    if (map[s[i]] !== undefined && start <= map[s[i]]) {
+      start = map[s[i]];
+      tmpLen = i - map[s[i]];
+    } else {
+      tmpLen++;
+    }
+
+    map[s[i]] = i;
+
+    maxLen = maxLen < tmpLen ? tmpLen : maxLen;
+  }
+
+  return maxLen;
+};
+
+console.log(lengthOfLongestSubstring("abba"));
+console.log(lengthOfLongestSubstring("aab"));
 console.log(lengthOfLongestSubstring('abcabcbb'));
 console.log(lengthOfLongestSubstring('bbbbb'));
 console.log(lengthOfLongestSubstring('pwwkew'));
