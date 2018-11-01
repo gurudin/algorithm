@@ -10,23 +10,28 @@ func lengthOfLongestSubstring(s string) int {
 	var tmpStr string
 
 	for i := 0; i < len(s); i++ {
-		var tmpLen int
-
 		if strings.IndexByte(s[i+1:len(s)], s[i]) > -1 {
-			tmpLen = strings.IndexByte(s[i+1:len(s)], s[i])
-			tmpStr = s[i : i+tmpLen+1]
+			tmpStr = s[i : strings.IndexByte(s[i+1:len(s)], s[i])+i+1]
 		} else {
-			tmpLen = len(s)
-			tmpStr = s[i:tmpLen]
+			tmpStr = s[i:len(s)]
 		}
 
-		fmt.Println(tmpStr)
+		for j := 1; j < len(tmpStr); j++ {
+			if strings.IndexByte(tmpStr[j+1:len(tmpStr)], tmpStr[j]) > -1 {
+				tmpStr = tmpStr[0 : strings.IndexByte(tmpStr[j+1:len(tmpStr)], tmpStr[j])+j+1]
+			}
+		}
+
+		if maxLen < len(tmpStr) {
+			maxLen = len(tmpStr)
+		}
 	}
 
 	return maxLen
 }
 
 func main() {
-	// lengthOfLongestSubstring("abcbcabcbb")
-	lengthOfLongestSubstring("pwwkew")
+	fmt.Println(lengthOfLongestSubstring("abcbcabcbb"))
+	fmt.Println(lengthOfLongestSubstring("bbbbb"))
+	fmt.Println(lengthOfLongestSubstring("pwwkew"))
 }
