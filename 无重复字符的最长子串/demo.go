@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func lengthOfLongestSubstring(s string) int {
+func lengthOfLongestSubstringA(s string) int {
 	maxLen := 0
 	var tmpStr string
 
@@ -30,7 +30,34 @@ func lengthOfLongestSubstring(s string) int {
 	return maxLen
 }
 
+func lengthOfLongestSubstring(s string) int {
+	var tmpLen = 0
+	var maxLen = 0
+	var start = 0
+	strMap := make(map[string]int)
+
+	for i := 0; i < len(s); i++ {
+		_, ok := strMap[string(s[i])]
+		if ok && start <= strMap[string(s[i])] {
+			start = strMap[string(s[i])]
+			tmpLen = i - start
+		} else {
+			tmpLen++
+		}
+
+		strMap[string(s[i])] = i
+
+		if maxLen < tmpLen {
+			maxLen = tmpLen
+		}
+	}
+
+	return maxLen
+}
+
 func main() {
+	fmt.Println(lengthOfLongestSubstring("abba"))
+	fmt.Println(lengthOfLongestSubstring("aab"))
 	fmt.Println(lengthOfLongestSubstring("abcbcabcbb"))
 	fmt.Println(lengthOfLongestSubstring("bbbbb"))
 	fmt.Println(lengthOfLongestSubstring("pwwkew"))
