@@ -1,5 +1,10 @@
 <?php
-function lengthOfLongestSubstring(string $s)
+/**
+ * @param string
+ *
+ * @return int
+ */
+function lengthOfLongestSubstringA(string $s)
 {
     $tmp_str = '';
     $max_len = 0;
@@ -28,6 +33,36 @@ function lengthOfLongestSubstring(string $s)
     return $max_len;
 }
 
+/**
+ * @param string
+ *
+ * @return int
+ */
+function lengthOfLongestSubstring(string $s)
+{
+    $tmp_len = $max_len = $start = 0;
+    $map = [];
+
+    for ($i=0; $i<strlen($s); $i++) {
+        if (isset($map[$s{$i}]) && $start <= $map[$s{$i}]) {
+            $start = $map[$s{$i}];
+            $tmp_len = $i - $map[$s{$i}];
+        } else {
+            $tmp_len++;
+        }
+
+        $map[$s{$i}] = $i;
+
+        if ($max_len < $tmp_len) {
+            $max_len = $tmp_len;
+        }
+    }
+
+    return $max_len;
+}
+
+echo lengthOfLongestSubstring('abba') . PHP_EOL;
+echo lengthOfLongestSubstring('aab') . PHP_EOL;
 echo lengthOfLongestSubstring('abcbcabcbb') . PHP_EOL;
 echo lengthOfLongestSubstring('bbbbb') . PHP_EOL;
 echo lengthOfLongestSubstring('pwwkew') . PHP_EOL;
