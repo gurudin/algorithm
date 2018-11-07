@@ -41,9 +41,30 @@ func twoSumB(nums []int, target int) []int {
 	return result
 }
 
+func twoSumC(nums []int, target int) []int {
+	result := []int{0, 0}
+	tmp := make(map[string]int)
+
+	for i := 0; i < len(nums); i++ {
+		num := string(nums[i])
+
+		if _, ok := tmp[num]; ok {
+			result[0] = tmp[num]
+			result[1] = i
+
+			return result
+		} else {
+			tmp[string(target-nums[i])] = i
+		}
+	}
+
+	return result
+}
+
 func main() {
 	nums := []int{3, 2, 95, 4, -3}
 	target := 92
 	fmt.Println(twoSum(nums, target))
 	fmt.Println(twoSumB(nums, target))
+	fmt.Println(twoSumC(nums, target))
 }
