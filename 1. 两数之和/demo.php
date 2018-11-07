@@ -26,8 +26,24 @@ function towSumB(array $nums, int $target)
     }
 }
 
+function towSumC(array $nums, int $target)
+{
+    $hash = [];
+
+    for ($i=0; $i<count($nums); $i++) {
+        $tmp_num = $nums[$i];
+
+        if (isset($hash[$tmp_num])) {
+            return [$hash[$tmp_num], $i];
+        } else {
+            $hash[$target - $tmp_num] = $i;
+        }
+    }
+}
+
 $nums = [1, 2, 3, 4, 5, 6];
 $target = 11;
 
 print_r(towSum($nums, $target));
 print_r(towSumB($nums, $target));
+print_r(towSumC($nums, $target));
